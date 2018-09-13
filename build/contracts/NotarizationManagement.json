@@ -1,0 +1,2735 @@
+{
+  "contractName": "NotarizationManagement",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "usedHashes",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "blockNumber",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "blockTimeStamp",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "hash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "permissionOfFrom",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "name": "permissionOfTo",
+          "type": "uint8"
+        }
+      ],
+      "name": "DocumentEvent",
+      "type": "event"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b5060d68061001f6000396000f300608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063aef18bf7146044575b600080fd5b348015604f57600080fd5b5060706004803603810190808035600019169060200190929190505050608a565b604051808215151515815260200191505060405180910390f35b60036020528060005260406000206000915054906101000a900460ff16815600a165627a7a723058203ff2331a0d7c5d153ccdca4dccd9f4a5368b59764ae02f00b070eef0ce1c64c00029",
+  "deployedBytecode": "0x608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063aef18bf7146044575b600080fd5b348015604f57600080fd5b5060706004803603810190808035600019169060200190929190505050608a565b604051808215151515815260200191505060405180910390f35b60036020528060005260406000206000915054906101000a900460ff16815600a165627a7a723058203ff2331a0d7c5d153ccdca4dccd9f4a5368b59764ae02f00b070eef0ce1c64c00029",
+  "sourceMap": "26:1768:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;26:1768:1;;;;;;;",
+  "deployedSourceMap": "26:1768:1:-;;;;;;;;;;;;;;;;;;;;;;;;390:42;;8:9:-1;5:2;;;30:1;27;20:12;5:2;390:42:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.23;\n\ncontract NotarizationManagement{\n  address owner;\n\n  uint documentCount;\n\n  enum PermissionType {master, owner, write, read, none}\n\n  struct DocumentTransfer {\n    uint blockNumber;\n    uint timestamp;\n    bytes32 hash;\n    address from;\n    address to;\n    PermissionType permissionOfFrom;\n    PermissionType permissionOfTo;\n  }\n\n  DocumentTransfer[] history;\n\n  mapping(bytes32 => bool) public usedHashes;\n\n  event DocumentEvent(uint blockNumber, uint blockTimeStamp, bytes32 hash, address from, address to, PermissionType permissionOfFrom, PermissionType permissionOfTo);\n\n  /**\n  * @dev use to add history of transfers and emit transfer event\n  * @param _hash hash of the document\n  * @param _from address from whom the transfer is originated\n  * @param _to addess to whom transfer is done\n  * @param _permissionOfFrom enum PermissionType of delegator\n  * @param _permissionOfFrom enum PermissionType of delegated\n  */\n  function transferDocument(bytes32 _hash, address _from, address _to, PermissionType _permissionOfFrom, PermissionType _permissionOfTo) internal{\n    //history.push(DocumentTransfer(block.number, block.timestamp, _hash, _from, _to, _permissionOfFrom, _permissionOfTo));\n    emit DocumentEvent(block.number, block.timestamp,  _hash, _from, _to, _permissionOfFrom, _permissionOfTo);\n  }\n\n  /**\n  * @dev use to check if the documents exists or not\n  * @param _hash hash of the document\n  */\n  function documentExists(bytes32 _hash) constant internal returns (bool exists){\n    if (usedHashes[_hash]) {\n      exists = true;\n    }else{\n      exists= false;\n    }\n    return exists;\n  }\n\n  /**\n  * @dev returns the total number of documents/hashes\n  */\n  function getLatest() constant internal returns (uint latest){\n      return documentCount;\n  }\n}\n",
+  "sourcePath": "/home/ashwin/Desktop/Rockchain/forTruffle/contracts/NotarizationManagement.sol",
+  "ast": {
+    "absolutePath": "/home/ashwin/Desktop/Rockchain/forTruffle/contracts/NotarizationManagement.sol",
+    "exportedSymbols": {
+      "NotarizationManagement": [
+        165
+      ]
+    },
+    "id": 166,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 58,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".23"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:1"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 165,
+        "linearizedBaseContracts": [
+          165
+        ],
+        "name": "NotarizationManagement",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 60,
+            "name": "owner",
+            "nodeType": "VariableDeclaration",
+            "scope": 165,
+            "src": "61:13:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 59,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "61:7:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 62,
+            "name": "documentCount",
+            "nodeType": "VariableDeclaration",
+            "scope": 165,
+            "src": "79:18:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 61,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "79:4:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "canonicalName": "NotarizationManagement.PermissionType",
+            "id": 68,
+            "members": [
+              {
+                "id": 63,
+                "name": "master",
+                "nodeType": "EnumValue",
+                "src": "123:6:1"
+              },
+              {
+                "id": 64,
+                "name": "owner",
+                "nodeType": "EnumValue",
+                "src": "131:5:1"
+              },
+              {
+                "id": 65,
+                "name": "write",
+                "nodeType": "EnumValue",
+                "src": "138:5:1"
+              },
+              {
+                "id": 66,
+                "name": "read",
+                "nodeType": "EnumValue",
+                "src": "145:4:1"
+              },
+              {
+                "id": 67,
+                "name": "none",
+                "nodeType": "EnumValue",
+                "src": "151:4:1"
+              }
+            ],
+            "name": "PermissionType",
+            "nodeType": "EnumDefinition",
+            "src": "102:54:1"
+          },
+          {
+            "canonicalName": "NotarizationManagement.DocumentTransfer",
+            "id": 83,
+            "members": [
+              {
+                "constant": false,
+                "id": 70,
+                "name": "blockNumber",
+                "nodeType": "VariableDeclaration",
+                "scope": 83,
+                "src": "190:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 69,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "190:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 72,
+                "name": "timestamp",
+                "nodeType": "VariableDeclaration",
+                "scope": 83,
+                "src": "212:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 71,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "212:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 74,
+                "name": "hash",
+                "nodeType": "VariableDeclaration",
+                "scope": 83,
+                "src": "232:12:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                },
+                "typeName": {
+                  "id": 73,
+                  "name": "bytes32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "232:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 76,
+                "name": "from",
+                "nodeType": "VariableDeclaration",
+                "scope": 83,
+                "src": "250:12:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 75,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "250:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 78,
+                "name": "to",
+                "nodeType": "VariableDeclaration",
+                "scope": 83,
+                "src": "268:10:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 77,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "268:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 80,
+                "name": "permissionOfFrom",
+                "nodeType": "VariableDeclaration",
+                "scope": 83,
+                "src": "284:31:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_PermissionType_$68",
+                  "typeString": "enum NotarizationManagement.PermissionType"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 79,
+                  "name": "PermissionType",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 68,
+                  "src": "284:14:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_PermissionType_$68",
+                    "typeString": "enum NotarizationManagement.PermissionType"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 82,
+                "name": "permissionOfTo",
+                "nodeType": "VariableDeclaration",
+                "scope": 83,
+                "src": "321:29:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_PermissionType_$68",
+                  "typeString": "enum NotarizationManagement.PermissionType"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 81,
+                  "name": "PermissionType",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 68,
+                  "src": "321:14:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_PermissionType_$68",
+                    "typeString": "enum NotarizationManagement.PermissionType"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "DocumentTransfer",
+            "nodeType": "StructDefinition",
+            "scope": 165,
+            "src": "160:195:1",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 86,
+            "name": "history",
+            "nodeType": "VariableDeclaration",
+            "scope": 165,
+            "src": "359:26:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_struct$_DocumentTransfer_$83_storage_$dyn_storage",
+              "typeString": "struct NotarizationManagement.DocumentTransfer[]"
+            },
+            "typeName": {
+              "baseType": {
+                "contractScope": null,
+                "id": 84,
+                "name": "DocumentTransfer",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 83,
+                "src": "359:16:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_DocumentTransfer_$83_storage_ptr",
+                  "typeString": "struct NotarizationManagement.DocumentTransfer"
+                }
+              },
+              "id": 85,
+              "length": null,
+              "nodeType": "ArrayTypeName",
+              "src": "359:18:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_struct$_DocumentTransfer_$83_storage_$dyn_storage_ptr",
+                "typeString": "struct NotarizationManagement.DocumentTransfer[]"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 90,
+            "name": "usedHashes",
+            "nodeType": "VariableDeclaration",
+            "scope": 165,
+            "src": "390:42:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_bytes32_$_t_bool_$",
+              "typeString": "mapping(bytes32 => bool)"
+            },
+            "typeName": {
+              "id": 89,
+              "keyType": {
+                "id": 87,
+                "name": "bytes32",
+                "nodeType": "ElementaryTypeName",
+                "src": "398:7:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "390:24:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_bytes32_$_t_bool_$",
+                "typeString": "mapping(bytes32 => bool)"
+              },
+              "valueType": {
+                "id": 88,
+                "name": "bool",
+                "nodeType": "ElementaryTypeName",
+                "src": "409:4:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 106,
+            "name": "DocumentEvent",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 105,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 92,
+                  "indexed": false,
+                  "name": "blockNumber",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 106,
+                  "src": "457:16:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 91,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "457:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 94,
+                  "indexed": false,
+                  "name": "blockTimeStamp",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 106,
+                  "src": "475:19:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 93,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "475:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 96,
+                  "indexed": false,
+                  "name": "hash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 106,
+                  "src": "496:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 95,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "496:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 98,
+                  "indexed": false,
+                  "name": "from",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 106,
+                  "src": "510:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 97,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "510:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 100,
+                  "indexed": false,
+                  "name": "to",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 106,
+                  "src": "524:10:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 99,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "524:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 102,
+                  "indexed": false,
+                  "name": "permissionOfFrom",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 106,
+                  "src": "536:31:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_PermissionType_$68",
+                    "typeString": "enum NotarizationManagement.PermissionType"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 101,
+                    "name": "PermissionType",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 68,
+                    "src": "536:14:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_PermissionType_$68",
+                      "typeString": "enum NotarizationManagement.PermissionType"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 104,
+                  "indexed": false,
+                  "name": "permissionOfTo",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 106,
+                  "src": "569:29:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_PermissionType_$68",
+                    "typeString": "enum NotarizationManagement.PermissionType"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 103,
+                    "name": "PermissionType",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 68,
+                    "src": "569:14:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_PermissionType_$68",
+                      "typeString": "enum NotarizationManagement.PermissionType"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "456:143:1"
+            },
+            "src": "437:163:1"
+          },
+          {
+            "body": {
+              "id": 131,
+              "nodeType": "Block",
+              "src": "1094:240:1",
+              "statements": [
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 120,
+                          "name": "block",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1770,
+                          "src": "1243:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_block",
+                            "typeString": "block"
+                          }
+                        },
+                        "id": 121,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "number",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "1243:12:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 122,
+                          "name": "block",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1770,
+                          "src": "1257:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_block",
+                            "typeString": "block"
+                          }
+                        },
+                        "id": 123,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "timestamp",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "1257:15:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 124,
+                        "name": "_hash",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 108,
+                        "src": "1275:5:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 125,
+                        "name": "_from",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 110,
+                        "src": "1282:5:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 126,
+                        "name": "_to",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112,
+                        "src": "1289:3:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 127,
+                        "name": "_permissionOfFrom",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 114,
+                        "src": "1294:17:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_enum$_PermissionType_$68",
+                          "typeString": "enum NotarizationManagement.PermissionType"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 128,
+                        "name": "_permissionOfTo",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 116,
+                        "src": "1313:15:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_enum$_PermissionType_$68",
+                          "typeString": "enum NotarizationManagement.PermissionType"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_enum$_PermissionType_$68",
+                          "typeString": "enum NotarizationManagement.PermissionType"
+                        },
+                        {
+                          "typeIdentifier": "t_enum$_PermissionType_$68",
+                          "typeString": "enum NotarizationManagement.PermissionType"
+                        }
+                      ],
+                      "id": 119,
+                      "name": "DocumentEvent",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 106,
+                      "src": "1229:13:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_uint256_$_t_bytes32_$_t_address_$_t_address_$_t_enum$_PermissionType_$68_$_t_enum$_PermissionType_$68_$returns$__$",
+                        "typeString": "function (uint256,uint256,bytes32,address,address,enum NotarizationManagement.PermissionType,enum NotarizationManagement.PermissionType)"
+                      }
+                    },
+                    "id": 129,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1229:100:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 130,
+                  "nodeType": "EmitStatement",
+                  "src": "1224:105:1"
+                }
+              ]
+            },
+            "documentation": "@dev use to add history of transfers and emit transfer event\n@param _hash hash of the document\n@param _from address from whom the transfer is originated\n@param _to addess to whom transfer is done\n@param _permissionOfFrom enum PermissionType of delegator\n@param _permissionOfFrom enum PermissionType of delegated",
+            "id": 132,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "transferDocument",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 117,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 108,
+                  "name": "_hash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 132,
+                  "src": "977:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 107,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "977:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 110,
+                  "name": "_from",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 132,
+                  "src": "992:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 109,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "992:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 112,
+                  "name": "_to",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 132,
+                  "src": "1007:11:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 111,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1007:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 114,
+                  "name": "_permissionOfFrom",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 132,
+                  "src": "1020:32:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_PermissionType_$68",
+                    "typeString": "enum NotarizationManagement.PermissionType"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 113,
+                    "name": "PermissionType",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 68,
+                    "src": "1020:14:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_PermissionType_$68",
+                      "typeString": "enum NotarizationManagement.PermissionType"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 116,
+                  "name": "_permissionOfTo",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 132,
+                  "src": "1054:30:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_PermissionType_$68",
+                    "typeString": "enum NotarizationManagement.PermissionType"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 115,
+                    "name": "PermissionType",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 68,
+                    "src": "1054:14:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_PermissionType_$68",
+                      "typeString": "enum NotarizationManagement.PermissionType"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "976:109:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 118,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1094:0:1"
+            },
+            "scope": 165,
+            "src": "951:383:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 155,
+              "nodeType": "Block",
+              "src": "1518:112:1",
+              "statements": [
+                {
+                  "condition": {
+                    "argumentTypes": null,
+                    "baseExpression": {
+                      "argumentTypes": null,
+                      "id": 139,
+                      "name": "usedHashes",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 90,
+                      "src": "1528:10:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_mapping$_t_bytes32_$_t_bool_$",
+                        "typeString": "mapping(bytes32 => bool)"
+                      }
+                    },
+                    "id": 141,
+                    "indexExpression": {
+                      "argumentTypes": null,
+                      "id": 140,
+                      "name": "_hash",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 134,
+                      "src": "1539:5:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes32",
+                        "typeString": "bytes32"
+                      }
+                    },
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "IndexAccess",
+                    "src": "1528:17:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": {
+                    "id": 151,
+                    "nodeType": "Block",
+                    "src": "1579:28:1",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 149,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "argumentTypes": null,
+                            "id": 147,
+                            "name": "exists",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 137,
+                            "src": "1587:6:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "argumentTypes": null,
+                            "hexValue": "66616c7365",
+                            "id": 148,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "bool",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "1595:5:1",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            },
+                            "value": "false"
+                          },
+                          "src": "1587:13:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "id": 150,
+                        "nodeType": "ExpressionStatement",
+                        "src": "1587:13:1"
+                      }
+                    ]
+                  },
+                  "id": 152,
+                  "nodeType": "IfStatement",
+                  "src": "1524:83:1",
+                  "trueBody": {
+                    "id": 146,
+                    "nodeType": "Block",
+                    "src": "1547:28:1",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 144,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "argumentTypes": null,
+                            "id": 142,
+                            "name": "exists",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 137,
+                            "src": "1555:6:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "argumentTypes": null,
+                            "hexValue": "74727565",
+                            "id": 143,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "bool",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "1564:4:1",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            },
+                            "value": "true"
+                          },
+                          "src": "1555:13:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "id": 145,
+                        "nodeType": "ExpressionStatement",
+                        "src": "1555:13:1"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 153,
+                    "name": "exists",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 137,
+                    "src": "1619:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "functionReturnParameters": 138,
+                  "id": 154,
+                  "nodeType": "Return",
+                  "src": "1612:13:1"
+                }
+              ]
+            },
+            "documentation": "@dev use to check if the documents exists or not\n@param _hash hash of the document",
+            "id": 156,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "documentExists",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 135,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 134,
+                  "name": "_hash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 156,
+                  "src": "1464:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 133,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1464:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1463:15:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 138,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 137,
+                  "name": "exists",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 156,
+                  "src": "1506:11:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 136,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1506:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1505:13:1"
+            },
+            "scope": 165,
+            "src": "1440:190:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 163,
+              "nodeType": "Block",
+              "src": "1759:33:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 161,
+                    "name": "documentCount",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 62,
+                    "src": "1774:13:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 160,
+                  "id": 162,
+                  "nodeType": "Return",
+                  "src": "1767:20:1"
+                }
+              ]
+            },
+            "documentation": "@dev returns the total number of documents/hashes",
+            "id": 164,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getLatest",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 157,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1717:2:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 160,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 159,
+                  "name": "latest",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 164,
+                  "src": "1747:11:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 158,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1747:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1746:13:1"
+            },
+            "scope": 165,
+            "src": "1699:93:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "internal"
+          }
+        ],
+        "scope": 166,
+        "src": "26:1768:1"
+      }
+    ],
+    "src": "0:1795:1"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/ashwin/Desktop/Rockchain/forTruffle/contracts/NotarizationManagement.sol",
+    "exportedSymbols": {
+      "NotarizationManagement": [
+        165
+      ]
+    },
+    "id": 166,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 58,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".23"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:1"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 165,
+        "linearizedBaseContracts": [
+          165
+        ],
+        "name": "NotarizationManagement",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 60,
+            "name": "owner",
+            "nodeType": "VariableDeclaration",
+            "scope": 165,
+            "src": "61:13:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 59,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "61:7:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 62,
+            "name": "documentCount",
+            "nodeType": "VariableDeclaration",
+            "scope": 165,
+            "src": "79:18:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 61,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "79:4:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "canonicalName": "NotarizationManagement.PermissionType",
+            "id": 68,
+            "members": [
+              {
+                "id": 63,
+                "name": "master",
+                "nodeType": "EnumValue",
+                "src": "123:6:1"
+              },
+              {
+                "id": 64,
+                "name": "owner",
+                "nodeType": "EnumValue",
+                "src": "131:5:1"
+              },
+              {
+                "id": 65,
+                "name": "write",
+                "nodeType": "EnumValue",
+                "src": "138:5:1"
+              },
+              {
+                "id": 66,
+                "name": "read",
+                "nodeType": "EnumValue",
+                "src": "145:4:1"
+              },
+              {
+                "id": 67,
+                "name": "none",
+                "nodeType": "EnumValue",
+                "src": "151:4:1"
+              }
+            ],
+            "name": "PermissionType",
+            "nodeType": "EnumDefinition",
+            "src": "102:54:1"
+          },
+          {
+            "canonicalName": "NotarizationManagement.DocumentTransfer",
+            "id": 83,
+            "members": [
+              {
+                "constant": false,
+                "id": 70,
+                "name": "blockNumber",
+                "nodeType": "VariableDeclaration",
+                "scope": 83,
+                "src": "190:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 69,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "190:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 72,
+                "name": "timestamp",
+                "nodeType": "VariableDeclaration",
+                "scope": 83,
+                "src": "212:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 71,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "212:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 74,
+                "name": "hash",
+                "nodeType": "VariableDeclaration",
+                "scope": 83,
+                "src": "232:12:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                },
+                "typeName": {
+                  "id": 73,
+                  "name": "bytes32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "232:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 76,
+                "name": "from",
+                "nodeType": "VariableDeclaration",
+                "scope": 83,
+                "src": "250:12:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 75,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "250:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 78,
+                "name": "to",
+                "nodeType": "VariableDeclaration",
+                "scope": 83,
+                "src": "268:10:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 77,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "268:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 80,
+                "name": "permissionOfFrom",
+                "nodeType": "VariableDeclaration",
+                "scope": 83,
+                "src": "284:31:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_PermissionType_$68",
+                  "typeString": "enum NotarizationManagement.PermissionType"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 79,
+                  "name": "PermissionType",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 68,
+                  "src": "284:14:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_PermissionType_$68",
+                    "typeString": "enum NotarizationManagement.PermissionType"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 82,
+                "name": "permissionOfTo",
+                "nodeType": "VariableDeclaration",
+                "scope": 83,
+                "src": "321:29:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_PermissionType_$68",
+                  "typeString": "enum NotarizationManagement.PermissionType"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 81,
+                  "name": "PermissionType",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 68,
+                  "src": "321:14:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_PermissionType_$68",
+                    "typeString": "enum NotarizationManagement.PermissionType"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "DocumentTransfer",
+            "nodeType": "StructDefinition",
+            "scope": 165,
+            "src": "160:195:1",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 86,
+            "name": "history",
+            "nodeType": "VariableDeclaration",
+            "scope": 165,
+            "src": "359:26:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_struct$_DocumentTransfer_$83_storage_$dyn_storage",
+              "typeString": "struct NotarizationManagement.DocumentTransfer[]"
+            },
+            "typeName": {
+              "baseType": {
+                "contractScope": null,
+                "id": 84,
+                "name": "DocumentTransfer",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 83,
+                "src": "359:16:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_DocumentTransfer_$83_storage_ptr",
+                  "typeString": "struct NotarizationManagement.DocumentTransfer"
+                }
+              },
+              "id": 85,
+              "length": null,
+              "nodeType": "ArrayTypeName",
+              "src": "359:18:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_struct$_DocumentTransfer_$83_storage_$dyn_storage_ptr",
+                "typeString": "struct NotarizationManagement.DocumentTransfer[]"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 90,
+            "name": "usedHashes",
+            "nodeType": "VariableDeclaration",
+            "scope": 165,
+            "src": "390:42:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_bytes32_$_t_bool_$",
+              "typeString": "mapping(bytes32 => bool)"
+            },
+            "typeName": {
+              "id": 89,
+              "keyType": {
+                "id": 87,
+                "name": "bytes32",
+                "nodeType": "ElementaryTypeName",
+                "src": "398:7:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "390:24:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_bytes32_$_t_bool_$",
+                "typeString": "mapping(bytes32 => bool)"
+              },
+              "valueType": {
+                "id": 88,
+                "name": "bool",
+                "nodeType": "ElementaryTypeName",
+                "src": "409:4:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 106,
+            "name": "DocumentEvent",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 105,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 92,
+                  "indexed": false,
+                  "name": "blockNumber",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 106,
+                  "src": "457:16:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 91,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "457:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 94,
+                  "indexed": false,
+                  "name": "blockTimeStamp",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 106,
+                  "src": "475:19:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 93,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "475:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 96,
+                  "indexed": false,
+                  "name": "hash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 106,
+                  "src": "496:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 95,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "496:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 98,
+                  "indexed": false,
+                  "name": "from",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 106,
+                  "src": "510:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 97,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "510:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 100,
+                  "indexed": false,
+                  "name": "to",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 106,
+                  "src": "524:10:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 99,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "524:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 102,
+                  "indexed": false,
+                  "name": "permissionOfFrom",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 106,
+                  "src": "536:31:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_PermissionType_$68",
+                    "typeString": "enum NotarizationManagement.PermissionType"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 101,
+                    "name": "PermissionType",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 68,
+                    "src": "536:14:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_PermissionType_$68",
+                      "typeString": "enum NotarizationManagement.PermissionType"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 104,
+                  "indexed": false,
+                  "name": "permissionOfTo",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 106,
+                  "src": "569:29:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_PermissionType_$68",
+                    "typeString": "enum NotarizationManagement.PermissionType"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 103,
+                    "name": "PermissionType",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 68,
+                    "src": "569:14:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_PermissionType_$68",
+                      "typeString": "enum NotarizationManagement.PermissionType"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "456:143:1"
+            },
+            "src": "437:163:1"
+          },
+          {
+            "body": {
+              "id": 131,
+              "nodeType": "Block",
+              "src": "1094:240:1",
+              "statements": [
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 120,
+                          "name": "block",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1770,
+                          "src": "1243:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_block",
+                            "typeString": "block"
+                          }
+                        },
+                        "id": 121,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "number",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "1243:12:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 122,
+                          "name": "block",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1770,
+                          "src": "1257:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_block",
+                            "typeString": "block"
+                          }
+                        },
+                        "id": 123,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "timestamp",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "1257:15:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 124,
+                        "name": "_hash",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 108,
+                        "src": "1275:5:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 125,
+                        "name": "_from",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 110,
+                        "src": "1282:5:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 126,
+                        "name": "_to",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112,
+                        "src": "1289:3:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 127,
+                        "name": "_permissionOfFrom",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 114,
+                        "src": "1294:17:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_enum$_PermissionType_$68",
+                          "typeString": "enum NotarizationManagement.PermissionType"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 128,
+                        "name": "_permissionOfTo",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 116,
+                        "src": "1313:15:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_enum$_PermissionType_$68",
+                          "typeString": "enum NotarizationManagement.PermissionType"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_enum$_PermissionType_$68",
+                          "typeString": "enum NotarizationManagement.PermissionType"
+                        },
+                        {
+                          "typeIdentifier": "t_enum$_PermissionType_$68",
+                          "typeString": "enum NotarizationManagement.PermissionType"
+                        }
+                      ],
+                      "id": 119,
+                      "name": "DocumentEvent",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 106,
+                      "src": "1229:13:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_uint256_$_t_bytes32_$_t_address_$_t_address_$_t_enum$_PermissionType_$68_$_t_enum$_PermissionType_$68_$returns$__$",
+                        "typeString": "function (uint256,uint256,bytes32,address,address,enum NotarizationManagement.PermissionType,enum NotarizationManagement.PermissionType)"
+                      }
+                    },
+                    "id": 129,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1229:100:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 130,
+                  "nodeType": "EmitStatement",
+                  "src": "1224:105:1"
+                }
+              ]
+            },
+            "documentation": "@dev use to add history of transfers and emit transfer event\n@param _hash hash of the document\n@param _from address from whom the transfer is originated\n@param _to addess to whom transfer is done\n@param _permissionOfFrom enum PermissionType of delegator\n@param _permissionOfFrom enum PermissionType of delegated",
+            "id": 132,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "transferDocument",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 117,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 108,
+                  "name": "_hash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 132,
+                  "src": "977:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 107,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "977:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 110,
+                  "name": "_from",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 132,
+                  "src": "992:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 109,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "992:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 112,
+                  "name": "_to",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 132,
+                  "src": "1007:11:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 111,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1007:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 114,
+                  "name": "_permissionOfFrom",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 132,
+                  "src": "1020:32:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_PermissionType_$68",
+                    "typeString": "enum NotarizationManagement.PermissionType"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 113,
+                    "name": "PermissionType",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 68,
+                    "src": "1020:14:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_PermissionType_$68",
+                      "typeString": "enum NotarizationManagement.PermissionType"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 116,
+                  "name": "_permissionOfTo",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 132,
+                  "src": "1054:30:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_PermissionType_$68",
+                    "typeString": "enum NotarizationManagement.PermissionType"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 115,
+                    "name": "PermissionType",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 68,
+                    "src": "1054:14:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_PermissionType_$68",
+                      "typeString": "enum NotarizationManagement.PermissionType"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "976:109:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 118,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1094:0:1"
+            },
+            "scope": 165,
+            "src": "951:383:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 155,
+              "nodeType": "Block",
+              "src": "1518:112:1",
+              "statements": [
+                {
+                  "condition": {
+                    "argumentTypes": null,
+                    "baseExpression": {
+                      "argumentTypes": null,
+                      "id": 139,
+                      "name": "usedHashes",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 90,
+                      "src": "1528:10:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_mapping$_t_bytes32_$_t_bool_$",
+                        "typeString": "mapping(bytes32 => bool)"
+                      }
+                    },
+                    "id": 141,
+                    "indexExpression": {
+                      "argumentTypes": null,
+                      "id": 140,
+                      "name": "_hash",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 134,
+                      "src": "1539:5:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes32",
+                        "typeString": "bytes32"
+                      }
+                    },
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "IndexAccess",
+                    "src": "1528:17:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": {
+                    "id": 151,
+                    "nodeType": "Block",
+                    "src": "1579:28:1",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 149,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "argumentTypes": null,
+                            "id": 147,
+                            "name": "exists",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 137,
+                            "src": "1587:6:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "argumentTypes": null,
+                            "hexValue": "66616c7365",
+                            "id": 148,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "bool",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "1595:5:1",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            },
+                            "value": "false"
+                          },
+                          "src": "1587:13:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "id": 150,
+                        "nodeType": "ExpressionStatement",
+                        "src": "1587:13:1"
+                      }
+                    ]
+                  },
+                  "id": 152,
+                  "nodeType": "IfStatement",
+                  "src": "1524:83:1",
+                  "trueBody": {
+                    "id": 146,
+                    "nodeType": "Block",
+                    "src": "1547:28:1",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 144,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "argumentTypes": null,
+                            "id": 142,
+                            "name": "exists",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 137,
+                            "src": "1555:6:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "argumentTypes": null,
+                            "hexValue": "74727565",
+                            "id": 143,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "bool",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "1564:4:1",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            },
+                            "value": "true"
+                          },
+                          "src": "1555:13:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "id": 145,
+                        "nodeType": "ExpressionStatement",
+                        "src": "1555:13:1"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 153,
+                    "name": "exists",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 137,
+                    "src": "1619:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "functionReturnParameters": 138,
+                  "id": 154,
+                  "nodeType": "Return",
+                  "src": "1612:13:1"
+                }
+              ]
+            },
+            "documentation": "@dev use to check if the documents exists or not\n@param _hash hash of the document",
+            "id": 156,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "documentExists",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 135,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 134,
+                  "name": "_hash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 156,
+                  "src": "1464:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 133,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1464:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1463:15:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 138,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 137,
+                  "name": "exists",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 156,
+                  "src": "1506:11:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 136,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1506:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1505:13:1"
+            },
+            "scope": 165,
+            "src": "1440:190:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 163,
+              "nodeType": "Block",
+              "src": "1759:33:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 161,
+                    "name": "documentCount",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 62,
+                    "src": "1774:13:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 160,
+                  "id": 162,
+                  "nodeType": "Return",
+                  "src": "1767:20:1"
+                }
+              ]
+            },
+            "documentation": "@dev returns the total number of documents/hashes",
+            "id": 164,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getLatest",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 157,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1717:2:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 160,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 159,
+                  "name": "latest",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 164,
+                  "src": "1747:11:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 158,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1747:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1746:13:1"
+            },
+            "scope": 165,
+            "src": "1699:93:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "internal"
+          }
+        ],
+        "scope": 166,
+        "src": "26:1768:1"
+      }
+    ],
+    "src": "0:1795:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-07-10T09:12:14.359Z"
+}
