@@ -1,6 +1,8 @@
 # blockchain-based-access-right-management
 A Blockchain based application allowing users to enforce Access Rights for any Document/File/Folder. Implemented by writing and deploying Smart Contract (in Solidity) on the Ethereum Blockchain. Four types of Access Rights were implemented- master, owner, write and read.
 
+For any doubts/queries/bug reports/issues feel free to contact me at ashwinarora48@gmail.com
+
 
 There are 2 smart contracts- PermissionManagement.sol and NotarizationManagement.sol
 
@@ -34,6 +36,5 @@ Here’s a description of each function of the contract. In this description the
 22.	isOwner()- checks if the delegate has permanent Owner access
 23.	isWriter()- checks if the delegate has permanent Write access
 24.	isReader()- checks if the delegate has permanent Read access.
-Kindly refer the code for better understanding.
-For any doubts/queries/bug reports/issues feel free to email at ashwinarora48@gmail.com
 
+Kindly refer the code for better understanding.
